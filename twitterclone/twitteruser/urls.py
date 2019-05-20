@@ -1,11 +1,7 @@
 from django.urls import path
-from twitterclone.twitteruser import views
-
+from twitterclone.twitteruser.views import (signup_view, profile_view)
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('login', views.login_view, name='login'),
-    path('register', views.register, name='register'),
-    path('logout', views.logout_view, name='logout'),
-    path('<username>', views.profile_view, name='profile')
+    path("signup/", signup_view),
+    path("<str:username>/", profile_view)
 ]

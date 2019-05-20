@@ -1,11 +1,9 @@
 from django import forms
 
-class NewUser(forms.Form):
-    username = forms.CharField(max_length=30)
-    password = forms.Charfield(widget=forms.PasswordInput)
-    email = forms.Charfield(widget=forms.EmailInput)
 
+class SignupForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    display_name = forms.CharField(max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput())
+    
 
-class Login(forms.Form):
-    username = forms.Charfield(max_length=30)
-    password = forms.Charfield(widget=forms.PasswordInput)

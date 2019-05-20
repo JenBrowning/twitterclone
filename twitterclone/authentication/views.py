@@ -1,24 +1,31 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
-from twango.authentication.forms import LoginForm
-from django.contrib.auth import authenticate, login
-
+from twitterclone.authentication.forms import LoginForm
+from django.contrib.auth import authenticate, login, logout
 
 
 def login_view(request):
-    html = "login.html"
+    html = "generic.html"
+    header = "Login"
     form = None
-
-    if request.method == 'POST':
-        form = Login.(request.POST)
+    button_value = "Please Login"
+    if request.method == "POST":
+        form = LoginForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             user = authenticate(
-                username=data['username'],
-                password=data['password']
-            )
+                username=data["username"], password=data["password"])
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect(request.GET.get('next', '/'))
+                return HttpResponseRedirect(request.GET.get("next", "/"))
     else:
-        form = Login()
-    return render(request, html, {'form': form})
+        form = LoginForm()
+    return render(request, html, {"header": header, "form": form,
+                                  "button_value": button_value})
+
+
+def logout_view(request):
+    html = "logout.html"
+    logout(request)
+    return render(request, html)
+
+
