@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="d-flex h-100 align-items-center">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,24 +8,19 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'styles.css'% }">
-        <title>TwitterUser</title>
+
+        <!-- <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <link href="{% static 'static/styles.css' %}" rel="stylesheet" media="screen"> -->
+        <title>Follow</title>
     </head>
     <body>
-        {% include "navbar.html" %}
-        <h1>Profile of: {{ targeteduser.username }}</h1>
-        <p>@{{ targeteduser }}</p>
-        <p>Display Name: {{ targeteduser.display_name }}</p>
-        <p>Number of Tweets: {{ num_tweets }}</p>
-
-        <p>Number of Followers: </p>
-        {% if targeteduser.username != request.user.username %}
-        {% if targeteduser.following %}
-        <button>Follow</button>
+        <h1>{{ header }}</h1>
+        {% if is_following %}
+        <p>Add follow</p>
         {% else %}
-        <button>Unfollow</button>
+        <p>Remove follow</p>
         {% endif %}
-        {% endif %}
-
-        {% include "tweets.html" %}
+        {% endblock %}
+       
     </body>
 </html>

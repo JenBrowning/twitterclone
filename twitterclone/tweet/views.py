@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required()
 def tweet_creation_view(request):
+    """Renders a tweet"""
     html = "generic.html"
     header = "Welcome to Kwitter!"
     form = None
@@ -25,7 +26,9 @@ def tweet_creation_view(request):
                                   "button_value": button_value})
 
 
+
 def tweet_view(request, id):
+    """Creates a tweet"""
     html = "tweets.html"
     tweets = Tweet.objects.filter(id=id)
     return render(request, html, {"tweets": tweets})

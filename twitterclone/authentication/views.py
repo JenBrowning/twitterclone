@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 
 
 def login_view(request):
+    """Able to log in to the app"""
     html = "generic.html"
     header = "Login"
     form = None
@@ -24,6 +25,7 @@ def login_view(request):
 
 
 def logout_view(request):
+    """Able to log out of the app"""
     html = "logout.html"
     logout(request)
     return render(request, html)
