@@ -2,6 +2,9 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from twitterclone.tweet.models import Tweet
 from twitterclone.tweet.forms import TweetForm
 from django.contrib.auth.decorators import login_required
+from twitterclone.notification.models import Notification
+from twitterclone.twitteruser.models import TwitterUser
+import re
 
 
 @login_required()
@@ -19,6 +22,12 @@ def tweet_creation_view(request):
                 user=request.user.twitteruser,
                 tweet=data["tweet"],
             )
+            user_matches = re.findall(r"@(\w+)", data["tweet"])
+            for match in user_matches:
+                Notification.objects.create(
+                    username=TwitterUser.objects.filter(username=match).first(),
+                    tweet=tweet
+                )
         return HttpResponseRedirect(reverse("home"))
     else:
         form = TweetForm()

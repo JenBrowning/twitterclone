@@ -46,6 +46,7 @@ def profile_view(request, username):
     if request.user.is_authenticated:
         currentuser = TwitterUser.objects.filter(
             username=request.user.twitteruser).first()
+        notifications = Notification.objects.filter(username=currentuser).count()
         if targeteduser not in currentuser.following.get_queryset():
             follow_status_button = "Follow"
         else:
@@ -53,7 +54,8 @@ def profile_view(request, username):
         data = {"targeteduser": targeteduser, "tweets": targeteduser_tweets,
                 "num_tweets": num_tweets,
                 "follow_status_button": follow_status_button,
-                "num_followers": num_followers}
+                "num_followers": num_followers,
+                "notifications": notifications}
     else:
         data = {"targeteduser": targeteduser, "tweets": targeteduser_tweets,
                 "num_tweets": num_tweets, "num_followers": num_followers}

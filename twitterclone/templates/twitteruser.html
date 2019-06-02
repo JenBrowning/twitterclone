@@ -1,4 +1,4 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'styles.css'% }">
+        <!-- <link rel="stylesheet" href="{% static 'styles.css'% }"> -->
         <title>TwitterUser</title>
     </head>
     <body>
@@ -17,15 +17,14 @@
         <p>Display Name: {{ targeteduser.display_name }}</p>
         <p>Number of Tweets: {{ num_tweets }}</p>
 
-        <p>Number of Followers: </p>
+        <p>Number of Followers @{{ targeteduser }} You Are Following: {{ num_followers }}</p>
         {% if targeteduser.username != request.user.username %}
-        {% if targeteduser.following %}
-        <button>Follow</button>
+        <a href="/follow/{{ targeteduser.username }}">
+            <button>{{ follow_status_button }}</button>
+        </a>
         {% else %}
-        <button>Unfollow</button>
+        <p>Number of Notifications: {{ notifications }}</p>
         {% endif %}
-        {% endif %}
-
         {% include "tweets.html" %}
     </body>
 </html>

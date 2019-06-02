@@ -10,4 +10,4 @@ class Notification(models.Model):
     was_viewed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.tweet.tweet
+        return f"@{self.username.username} tweeted: {self.tweet.tweet}"
