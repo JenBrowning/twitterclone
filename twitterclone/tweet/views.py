@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from twitterclone.notification.models import Notification
 from twitterclone.twitteruser.models import TwitterUser
 import re
+from django.views import View
 
 
 
@@ -43,7 +44,7 @@ class TweetCreationView(View):
         #     form = TweetForm()
             return render(request, self.template_name,
                         {"header": self.header,
-                        "form": form, "button_value": self.button_value}
+                        "form": form, "button_value": self.button_value})
 
 
 class TweetView(View):
