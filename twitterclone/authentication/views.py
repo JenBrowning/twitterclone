@@ -1,33 +1,41 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from twitterclone.authentication.forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
+from django.views import View
 
-
-def login_view(request):
+class LoginView(View):
     """Able to log in to the app"""
-    html = "generic.html"
+    template_name = 'generic.html'
+    form_class = LoginForm
+    url_redirect = "/"
     header = "Login"
-    form = None
-    button_value = "Please Login"
-    if request.method == "POST":
-        form = LoginForm(request.POST)
+    button_value = "Login"
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name,
+        {"header": self.header, "form": form,
+        "button_value": self.button_value})
+
+    def post(self, request):
+        form = self.form_class(self.POST)
         if form.is_valid():
             data = form.cleaned_data
             user = authenticate(
                 username=data["username"], password=data["password"])
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect(request.GET.get("next", "/"))
-    else:
-        form = LoginForm()
-    return render(request, html, {"header": header, "form": form,
-                                  "button_value": button_value})
+                return HttpResponseRedirect(
+                    request.GET.get("next", self.url_redirect))
+        return render(request, self.template_name,
+                {"header": self.header, "form": form,
+                "button_value": self. button_value})
 
-
-def logout_view(request):
+class LogoutView(View):
     """Able to log out of the app"""
-    html = "logout.html"
-    logout(request)
-    return render(request, html)
 
+    def get(self, request):
+        html = "logout.html"
+        logout(request)
+        return render(request, html)
 
