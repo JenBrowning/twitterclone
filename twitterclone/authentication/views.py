@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 
 
 def login_view(request):
-    """Able to log in to the app"""
+    """Able to log into the app"""
     html = "generic.html"
     header = "Login"
     form = None

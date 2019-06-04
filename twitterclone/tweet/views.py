@@ -14,6 +14,7 @@ def tweet_creation_view(request):
     header = "Welcome to Kwitter!"
     form = None
     button_value = "Post your tweet!"
+
     if request.method == "POST":
         form = TweetForm(request.POST)
         if form.is_valid():
