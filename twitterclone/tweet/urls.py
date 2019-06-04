@@ -1,10 +1,12 @@
 from django.urls import path
-from twitterclone.tweet.views import (tweet_creation_view, tweet_view)
+from twitterclone.tweet.views import (TweetCreationView, TweetView)
+form django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
-    path("tweet/", tweet_creation_view),
-    path("tweets/", tweet_view),
-    path("tweet/<int:id>/", tweet_view, name="individual")
+    path("tweet/", login_required(TweetCreationView.as_view()),
+         name="tweetcreate"),
+    path("tweets/", TweetView),
+    path("tweet/<int:id>/", TweetView, name="individual")
 
 ]

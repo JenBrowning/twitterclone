@@ -7,18 +7,28 @@ from twitterclone.twitteruser.models import TwitterUser
 import re
 
 
-@login_required()
-def tweet_creation_view(request):
+
+class TweetCreationView(View):
     """Renders a tweet"""
-    html = "generic.html"
-    header = "Welcome to Kwitter!"
-    form = None
-    button_value = "Post your tweet!"
-    if request.method == "POST":
-        form = TweetForm(request.POST)
+    model = Tweet
+    form_class = TweetForm
+    url_redirect = "home"
+    template_name = "generic.html"
+    header = "Create a tweet Girl"
+    button_value = "Post Your Tweet"
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name,
+        {"header": self.header, "form": form,
+        "button_value": self.button_value})
+
+
+    def post(self, request):
+        form = self.form_class(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            Tweet.objects.create(
+            tweet = Tweet.objects.create(
                 user=request.user.twitteruser,
                 tweet=data["tweet"],
             )
@@ -28,17 +38,19 @@ def tweet_creation_view(request):
                     username=TwitterUser.objects.filter(username=match).first(),
                     tweet=tweet
                 )
-        return HttpResponseRedirect(reverse("home"))
-    else:
-        form = TweetForm()
-    return render(request, html, {"header": header, "form": form,
-                                  "button_value": button_value})
+            return HttpResponseRedirect(reverse(self.url_redirect))
+        #  else:
+        #     form = TweetForm()
+            return render(request, self.template_name,
+                        {"header": self.header,
+                        "form": form, "button_value": self.button_value}
 
 
-
-def tweet_view(request, id):
+class TweetView(View):
     """Creates a tweet"""
-    html = "tweets.html"
-    tweets = Tweet.objects.filter(id=id)
-    return render(request, html, {"tweets": tweets})
+
+    def get(self, request):
+        html = "tweets.html"
+        tweets = Tweet.objects.filter(id=id)
+        return render(request, html, {"tweets": tweets})
 
