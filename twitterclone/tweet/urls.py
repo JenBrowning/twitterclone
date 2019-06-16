@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path("tweet/", login_required(TweetCreationView.as_view()),
          name="tweetcreate"),
-    path("tweets/", TweetView),
-    path("tweet/<int:id>/", TweetView, name="individual")
+    path("tweets/", TweetView.as_view()),
+    path("tweet/<int:id>/", TweetView.as_view(), name="individual")
 
 ]
